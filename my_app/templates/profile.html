@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="row mt-6">
+        <div class="col"></div>
+        <div class="col">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.csrf_token }}
+                {{ form.username.label }} {{ form.username() }} <br>
+                {{ form.photo.label }} {{ form.photo() }} <br>
+                <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit">
+
+            </form>
+
+        </div>
+        <div class="col"></div>
+    </div>
+
+{% endblock %}

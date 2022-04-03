@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <form method="POST" action="{{ url_for('auth.login') }}">
+        {{ form.csrf_token }}
+        {{ form.email.label }} {{ form.email() }} <br>
+        {{ form.password.label }} {{ form.password() }} <br><br>
+        {{ form.remember() }} {{ form.remember.label }} <br>
+
+        <br><br>
+        <input type="submit" class="btn btn-primary" value="Sign in">
+
+        {# Display the form validation errors #}
+        {% for field, errors in form.errors.items() %}
+            <div class="alert alert-error">
+                {{ form[field].label }}: {{ ', '.join(errors) }}
+            </div>
+        {% endfor %}
+
+    </form>
+{% endblock %}
