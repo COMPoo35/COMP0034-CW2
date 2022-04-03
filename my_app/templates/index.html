@@ -14,10 +14,12 @@
                             <img class="side-question-avatar" src="{{ url_for('static',filename='img/x.jpeg') }}" alt="">
                         </div>
                         <div class="question-main">
-                            <div class="question-title"><a href="#">{{ question.title }}</a></div>
-                            <div class="question-content">{{ question.content }}</div>
+                            <div style="font-size:30px" class="question-title"><a href="#">{{ question.title }}</a></div>
+                            <div class="question-content" >{{ question.content }}</div>
                             <div class="question-detail">
                                 <span class="question-author">{{ question.user_id }}</span>
+                                <span class="question-time">{{ question.create_time }}</span>
+                                <br><br>
                             </div>
                         </div>
                     </li>

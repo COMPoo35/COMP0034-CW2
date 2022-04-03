@@ -12,7 +12,7 @@ main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
 def index():
-    question = Question.query.all()
+    question = Question.query.order_by(db.text('-question_id')).all()
     return render_template('index.html', question=question)
 
 
