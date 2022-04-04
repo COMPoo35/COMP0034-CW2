@@ -70,8 +70,7 @@ def login():
         remember = login_form.remember.data
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
-            if remember == True:
-                login_user(user,  duration=timedelta(minutes=1))
+            login_user(user, remember=remember, duration=timedelta(minutes=1))
             next = request.args.get('next')
             if not is_safe_url(next):
                 return abort(400)

@@ -14,7 +14,7 @@ def validate_signup_email(self, email):
 def validate_username(self, username):
     users = User.query.filter_by(username=username.data).first()
     if users is not None:
-        raise ValidationError('A user is already in use')
+        raise ValidationError('The username is already in use')
 
 
 class SignupForm(FlaskForm):
