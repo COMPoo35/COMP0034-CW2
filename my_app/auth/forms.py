@@ -1,9 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField, SelectField
+from wtforms import StringField, PasswordField, EmailField
 from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
 from wtforms import BooleanField
-from flask_wtf.file import FileField, FileAllowed
-from my_app import photos
 from my_app.models import User
 
 

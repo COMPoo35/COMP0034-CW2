@@ -15,7 +15,6 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
-    profiles = db.relationship('Profile', backref=db.backref('user'))
     questions = db.relationship('Question', backref=db.backref('user'))
     #answers = db.relationship('Answer', backref='user')
 
@@ -46,6 +45,7 @@ class Question(db.Model):
 
     def __repr__(self):
         return '<Question %r>' % self.title
+
 
 class Answer(db.Model):
     __tablename__ = "answer"

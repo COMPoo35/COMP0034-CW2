@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, flash, redirect, url_for, request, abort, session
+from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from werkzeug.security import check_password_hash
-from my_app.auth.forms import SignupForm, LoginForm, ProfileForm
+from my_app.auth.forms import SignupForm, LoginForm
 from sqlalchemy.exc import IntegrityError
 from my_app import db, login_manager
 from my_app.models import User
@@ -67,10 +67,11 @@ def login():
     if login_form.validate_on_submit():
         password = login_form.password.data
         email = login_form.email.data
+        remember = login_form.remember.data
         user = User.query.filter_by(email=email).first()
-
         if user and check_password_hash(user.password, password):
-            login_user(user, remember=login_form.remember.data, duration=timedelta(minutes=1))
+            if remember == True:
+                login_user(user,  duration=timedelta(minutes=1))
             next = request.args.get('next')
             if not is_safe_url(next):
                 return abort(400)

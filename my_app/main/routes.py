@@ -2,11 +2,9 @@ from flask_login import current_user
 from flask import Blueprint, render_template, flash, request, redirect, url_for
 from flask_login import login_required
 from sqlalchemy import or_
-from sqlalchemy.exc import IntegrityError
-
-from my_app import photos, db
-from my_app.auth.forms import ProfileForm, QuestionForm, AnswerForm
-from my_app.models import Profile, User, Question, Answer
+from my_app import db
+from my_app.auth.forms import QuestionForm, AnswerForm
+from my_app.models import Question, Answer
 
 main_bp = Blueprint('main', __name__)
 
@@ -15,17 +13,6 @@ main_bp = Blueprint('main', __name__)
 def index():
     question = Question.query.order_by(db.text('-question_id')).all()
     return render_template('index.html', question=question)
-
-
-@main_bp.route('/profile', methods=['GET', 'POST'])
-@login_required
-def profile():
-    user_profile = Profile.query.filter_by(profile_username=current_user.username).first()
-    if user_profile is None:
-        # user profile does not exist, then create profile
-        return redirect(url_for('main.create_profile'))
-    # user profile exists, then update profile
-    return redirect(url_for('main.update_profile'))
 
 
 @main_bp.route('/post_question', methods=['POST', 'GET'])

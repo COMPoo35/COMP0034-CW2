@@ -5,13 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_required
 import dash
 import dash_bootstrap_components as dbc
-from flask_uploads import UploadSet, IMAGES, configure_uploads
 
 db = SQLAlchemy()
 csrf = CSRFProtect()
 csrf._exempt_views.add('dash.dash.dispatch')
 login_manager = LoginManager()
-photos = UploadSet('photos', IMAGES)
 
 
 def create_app(config_class_name):
@@ -26,15 +24,11 @@ def create_app(config_class_name):
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
     register_dashapp(app)
-    configure_uploads(app, photos)
 
     with app.app_context():
         #db.Model.metadata.reflect(bind=db.engine)
-        #db.metadata.clear()
-        from my_app.models import User, Profile, Question, Answer
+        from my_app.models import User, Question, Answer
         db.create_all()
-        #from my_app.models import Profile
-        #db.create_all()
 
     from my_app.auth.routes import auth_bp
     app.register_blueprint(auth_bp)
