@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, EqualTo, Length, ValidationError
 from wtforms import BooleanField
 from flask_wtf.file import FileField, FileAllowed
 from my_app import photos
-from my_app.models import User, Profile
+from my_app.models import User
 
 
 def validate_signup_email(self, email):
@@ -13,9 +13,14 @@ def validate_signup_email(self, email):
         raise ValidationError('An account is already registered for that email address')
 
 
+def validate_username(self, username):
+    users = User.query.filter_by(username=username.data).first()
+    if users is not None:
+        raise ValidationError('A user is already in use')
+
+
 class SignupForm(FlaskForm):
-    title = SelectField(label='Title', validators=[DataRequired()], choices=[
-        ('Mr', 'Mr'), ('Ms', 'Ms'), ('Dr', 'Dr')])
+    username = StringField(label='Username', validators=[DataRequired(), validate_username])
     first_name = StringField(label='First name', validators=[DataRequired()])
     last_name = StringField(label='Last name', validators=[DataRequired()])
     email = EmailField(label='Email address', validators=[DataRequired(), validate_signup_email])
@@ -31,17 +36,10 @@ class LoginForm(FlaskForm):
     remember = BooleanField(label='Remember Me')
 
 
-def validate_username(self, username):
-    username = Profile.query.filter_by(username=username.data).first()
-    if username is not None:
-        raise ValidationError('The username is already in use.')
-
-
-class ProfileForm(FlaskForm):
-    username = StringField(label='Username', validators=[DataRequired(), validate_username])
-    photo = FileField('Profile picture', validators=[FileAllowed(photos, 'Images only!')])
-
-
 class QuestionForm(FlaskForm):
     title = StringField(label='Title', validators=[DataRequired()])
     content = StringField(label='Content', validators=[DataRequired()])
+
+
+class AnswerForm(FlaskForm):
+    content = StringField(validators=[DataRequired()])

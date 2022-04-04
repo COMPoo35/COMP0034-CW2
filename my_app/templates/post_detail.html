@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+{% block title %}{{ question.title }}{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="https://moodle.ucl.ac.uk/theme/styles.php/adaptable/1642686014_1642639754/all">
+{% endblock %}
+{% block content %}
+    <div class="row" style="margin-top: 20px;">
+        <div class="col"></div>
+        <div class="col-8" style="background-color: #fff; padding: 20px;">
+            <h2 class="page-title">{{ question.title }} </h2>
+            <div class="question-info">
+                <span>{{ question.question_author }}</span><br>
+                <span>{{ question.create_time }}</span>
+            </div>
+            <hr>
+            <div class="question-content">{{ question.content }}</div>
+            <hr>
+            <h5>Comments({{ question.answers|length }}):</h5>
+            <form action="{{ url_for('main.answer', question_id=question.question_id) }}" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <div>
+                    <textarea type="text" rows="4" cols="80" placeholder="Add your comments here"
+                              name="content"></textarea><br>
+                    <button class="btn btn-secondary" style="text-align: right">Comment</button>
+                </div>
+                <hr>
+            </form>
+            <ul>
+                {% for answer in question.answers %}
+                    <li>
+                        <div>
+
+                            <div class="row">
+                                <div class="col-1">
+                                    <img class="side-question-avatar" src="{{ url_for('static',filename='img/x.jpeg') }}"
+                             alt="" style="width:30px;height:30px;">
+                                </div>
+                                <div class="col-8" style="text-align: left;font-size: large;">
+                                    <span>{{ answer.author.username }}</span><br>
+                                </div><br>
+                                <div class="col"></div>
+                            </div>
+                            <div style="font-size: x-small">
+                                <span>{{ answer.create_time }}</span><br>
+                            </div>
+
+                        </div>
+                        <p>{{ answer.content }}</p><hr>
+                </li>
+                {% endfor %}
+            </ul>
+
+
+        </div>
+        <div class="col"></div>
+    </div>
+{% endblock %}

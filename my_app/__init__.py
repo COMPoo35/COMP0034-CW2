@@ -31,7 +31,7 @@ def create_app(config_class_name):
     with app.app_context():
         #db.Model.metadata.reflect(bind=db.engine)
         #db.metadata.clear()
-        from my_app.models import User, Profile, Question
+        from my_app.models import User, Profile, Question, Answer
         db.create_all()
         #from my_app.models import Profile
         #db.create_all()

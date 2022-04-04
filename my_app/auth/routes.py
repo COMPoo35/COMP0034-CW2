@@ -46,7 +46,8 @@ def unauthorized():
 def signup():
     form = SignupForm()
     if form.validate_on_submit():
-        user = User(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data)
+        user = User(username=form.username.data, first_name=form.first_name.data, \
+                    last_name=form.last_name.data, email=form.email.data)
         user.set_password(form.password.data)
         try:
             db.session.add(user)
@@ -85,6 +86,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
-
-
-
